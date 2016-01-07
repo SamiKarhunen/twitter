@@ -14,7 +14,13 @@ public class twitterFunctions {
 	
 	public String twitteranswer = "";
 	
-	public String twitter(String keyword) throws TwitterException
+	
+        /*
+        this function uses twitter4j library to search with keywords from twitter
+        it takes keyword and makes it a hashtag by adding # sign on front of it
+        it then does the twitter-api defined procedures for searching with keywords and return 15 newest matching tweet
+        */
+        public String twitter(String keyword) throws TwitterException
 	{
 	    twitteranswer = "";  
 		ConfigurationBuilder cf = new ConfigurationBuilder();

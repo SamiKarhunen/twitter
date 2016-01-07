@@ -14,7 +14,11 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 public class databaseConnection  {
 	
-	public void Register(String username, String password) throws MySQLIntegrityConstraintViolationException
+	
+    /* this function is for register
+    it takes username and password and saves them to database
+    because in the database the username is set as not null and unique it throws exception is null or not unique */
+    public void Register(String username, String password) throws MySQLIntegrityConstraintViolationException
 	{
 		User user = new User();
 		user.setUsername(username);
@@ -33,8 +37,13 @@ public class databaseConnection  {
 		sessio.close();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public List Login(String username, String password)
+	
+    
+    /* 
+    this function takes username and returns matching password from database
+    */
+    @SuppressWarnings("rawtypes")
+	public List Login(String username)
 	{
 		
 		Configuration configuration = new Configuration().configure();
@@ -55,7 +64,10 @@ public class databaseConnection  {
 		return answer;
 	}
 	
-	public void AddKeywords(String username, String keyword)
+	/*
+        this function takes username and keywords and saves them to database
+        */
+        public void AddKeywords(String username, String keyword)
 	{
 		Keywords kw = new Keywords();
 		kw.setUsername(username);
@@ -73,7 +85,11 @@ public class databaseConnection  {
 		sessio.close();
 	}
 	
-	@SuppressWarnings("rawtypes")
+	
+        /*
+        this function takes username and returns every keyword from database matching that username
+        */
+        @SuppressWarnings("rawtypes")
 	public List Getkeywords(String username)
 	{
 		

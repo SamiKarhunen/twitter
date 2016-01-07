@@ -36,14 +36,12 @@ public class TwitterUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		final VerticalLayout layout = new VerticalLayout();
+		
+            /* defining Vaadin components for layout */
+            final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		layout.setSpacing(true);
 		setContent(layout);
-				
-
-		
-		
 		TextField username = new TextField("Username", "");
 		PasswordField password = new PasswordField("Password", "");
 		TextField addkeyword = new TextField("You can add keyword here");
@@ -58,7 +56,6 @@ public class TwitterUI extends UI {
 		Label header = new Label("This site is for checking your favorite hashtags or keywords from Twitter." + System.lineSeparator() + 
 				"You need to register or login and then you can save keywords and search with them." + System.lineSeparator() + "The search returns 15 latest tweets from all of your keywords");
 		
-		
 		HorizontalLayout hor = new HorizontalLayout();
 		VerticalLayout ver = new VerticalLayout();
 		hor.setSpacing(true);
@@ -69,14 +66,15 @@ public class TwitterUI extends UI {
 		hor.addComponents(login, register);
 		layout.addComponent(hor);
 		header.setWidth("800px");
-		
-		
-		
 		layout.setComponentAlignment(header, Alignment.TOP_CENTER);
 		
 		
 
-		 
+		 /* 
+                functions for button named getkeywords
+                this function adds or updates the view for user-defined keywords
+                it calls the twitter function from twitterFunctions class to search those keywords from twitter 
+                */
 		
 		getkeywords.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
@@ -106,7 +104,11 @@ public class TwitterUI extends UI {
 		});
 		
 		
-		
+		/*
+                functions for button named addkeywordbutton 
+                this button calls AddKeywords method from databaseConnection class
+                and saves users keyword to database and then clears the addkeyword textfield
+                */
 		addkeywordbutton.addClickListener(new Button.ClickListener(){
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
@@ -116,15 +118,26 @@ public class TwitterUI extends UI {
 			
 		});
 		
-		login.addClickListener(new Button.ClickListener() {
+		
+                /* 
+                functions for button named login
+                this button takes username and passwords and compares them to ones in database
+                by calling Login method from databaseConnection class
+                Login function returns password matching the username and then this function
+                compares the returned and user defines passwords and if they match 
+                it then changes the UI by removing options to login or register and instead giving option to 
+                logout or add keywords or check keywords
+                if the username and password won't match then it gives notification about that for user
+                */
+                login.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				
 				user = username.getValue();	
-				String login = db.Login(username.getValue(), password.getValue()).toString();
+				String login = db.Login(username.getValue()).toString();
 					if (("[" + password.getValue() + "]").equals(login))
 					{
 						
-						System.out.println(db.Login(username.getValue(), password.getValue()));
+						
 						success.setValue("Succesful login " + user);
 						layout.addComponent(logout);
 						layout.removeComponent(username);
@@ -144,7 +157,15 @@ public class TwitterUI extends UI {
 		});
 		
 		
-		
+		/* 
+                functions for button named register
+                takes username and password and check if they are at least 5 characters long and calls function Register from databaseConnection
+                which then saves them to database (and checks if the username is already taken)
+                if those matches it then changes the UI by removing options to login or register and instead giving option to 
+                logout or add keywords or check keywords
+                if the username is already taken it gives notification about that for user
+                
+                */
 		register.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				try
@@ -175,7 +196,12 @@ public class TwitterUI extends UI {
 				}
 		}); 
 		
-		logout.addClickListener(new Button.ClickListener(){
+		/* 
+                functions for button named logout 
+                changes the UI by removing user defined keyword searches, adding keywords and the search for them
+                and adds the choices to login or register
+                */
+                logout.addClickListener(new Button.ClickListener(){
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				user = null;
